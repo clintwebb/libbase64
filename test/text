@@ -1,0 +1,10 @@
+There are several web-based Base64 encoders/decoders, and only a couple Javascript encoders/decoders. The Javascript ones were all 
+rather complex (relatively speaking), and none used the functions for working with Base64 that are built into the JavaScript engine in 
+Netscape Communicator 4,x and up, and Mozilla. This uses those built in functions, and so it doesn't work in Internet Explorer, or 
+Opera. 
+
+VGhlcmUgYXJlIHNldmVyYWwgd2ViLWJhc2VkIEJhc2U2NCBlbmNvZGVycy9kZWNvZGVycywgYW5kIG9ubHkgYSBjb3VwbGUgSmF2YXNjcmlwdCBlbmNvZGVycy9kZWNvZGVycy4gVGhlIEphdmFzY3JpcHQgb25lcyB3ZXJlIGFsbCByYXRoZXIgY29tcGxleCAocmVsYXRpdmVseSBzcGVha2luZyksIGFuZCBub25lIHVzZWQgdGhlIGZ1bmN0aW9ucyBmb3Igd29ya2luZyB3aXRoIEJhc2U2NCB0aGF0IGFyZSBidWlsdCBpbnRvIHRoZSBKYXZhU2NyaXB0IGVuZ2luZSBpbiBOZXRzY2FwZSBDb21tdW5pY2F0b3IgNCx4IGFuZCB1cCwgYW5kIE1vemlsbGEuIFRoaXMgdXNlcyB0aG9zZSBidWlsdCBpbiBmdW5jdGlvbnMsIGFuZCBzbyBpdCBkb2Vzbid0IHdvcmsgaW4gSW50ZXJuZXQgRXhwbG9yZXIsIG9yIE9wZXJhLiA=
+
+
+
+
