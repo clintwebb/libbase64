@@ -1,4 +1,4 @@
-#include "base64.h"
+
 
 
 //-----------------------------------------------------------------------------
@@ -27,10 +27,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include "base64.h"
 
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+
+
+#if (BASE64_VERSION != 0x00000100)
+#error "Incorrect header version.  code and header versions must match."
+#endif
 
 
 char _codes[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
