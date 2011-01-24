@@ -113,7 +113,7 @@ int base64_decode(char *source, unsigned char *output, int *buflen)
 		assert(newlen < len);
 		assert(newlen < *buflen);
 	}
-	assert(newlen < buflen);
+	assert(newlen < *buflen);
 	output[newlen] = '\0';
 	
 	buflen[0] = newlen;
