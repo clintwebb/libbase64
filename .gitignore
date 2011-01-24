@@ -1,2 +1,3 @@
 libbase64.o
 libbase64.so.1.0.1
+test/b64_test
