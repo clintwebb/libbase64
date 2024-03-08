@@ -77,12 +77,12 @@ char *base64_encode(const unsigned char *data, int input_length, int *output_len
 //-----------------------------------------------------------------------------
 // Decode a sequence of 4 byte base64 blocks into a 3 byte binary block stream.
 // the base64 encoded stream should be a null-terminated string.
-int base64_decode(char *source, unsigned char *output, int *buflen)
+int base64_decode(const char *source, unsigned char *output, int *buflen)
 {
 	int len;
 	int newlen;
 	int i, j, used;
-	char *in;
+	const char *in;
 	unsigned char *out;
 	unsigned char ch;
 	

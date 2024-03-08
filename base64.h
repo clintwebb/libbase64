@@ -7,7 +7,7 @@
 // decode a base64 encoded string into the buffer supplied.   
 // length should originally contain the maximum size of the buffer.  
 // On return, it will contain the actual length of data placed in the outbuffer.
-int base64_decode(char *source, unsigned char *output, int *length);
+int base64_decode(const char *source, unsigned char *output, int *length);
 
 
 
