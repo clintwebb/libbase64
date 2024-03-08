@@ -11,6 +11,9 @@ int base64_decode(char *source, unsigned char *output, int *length);
 
 
 
+char *base64_encode(const unsigned char *data, int input_length, int *output_length);
+
+
 
 #endif
 

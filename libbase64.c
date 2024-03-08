@@ -1,15 +1,8 @@
-
-
-
-//-----------------------------------------------------------------------------
-// Originally from DevPlus, a C++ general purpose library.
-//-----------------------------------------------------------------------------
-
-
 /***************************************************************************
+ *   Copyright (C) 2007-2024 by Clinton Webb,,,                            *
  *   Copyright (C) 2006-2007 by Hyper-Active Systems,,,                    *
  *   Copyright (C) 2003-2005 by Clinton Webb,,,                            *
- *   devplus@hyper-active.com.au                                           *
+ *   webb.clint@gmail.com                                                  *
  *                                                                         *
  *   This library is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -32,6 +25,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 
 #if (BASE64_VERSION != 0x00000100)
@@ -39,20 +33,44 @@
 #endif
 
 
-char _codes[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-unsigned char _reverse[128];
+static char _codes[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+static unsigned char _reverse[123] = {
+	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	0,  0,  0,  0,  0,  0,  0,  0,	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  62,
+	0,  0,  0,  63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 0,  0,  0,  0,  0,  0,  0,  0,
+	1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+	23, 24, 25, 0,  0,  0,  0,  0,  0,  26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+	39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51 };
+static int mod_table[] = {0, 2, 1};
 
 
-static void base64_init(void) 
+char *base64_encode(const unsigned char *data, int input_length, int *output_length) 
 {
-	int i;
-	
-	memset(_reverse, 0, sizeof(_reverse));
-	for (i=0; i<64; i++)  { 
-		_reverse[(unsigned int) _codes[i]] = i; 
-	}
-}
+    int i, j;
 
+    *output_length = 4 * ((input_length + 2) / 3);
+
+    char *encoded_data = malloc(*output_length);
+    if (encoded_data == NULL) return NULL;
+
+    for (i=0, j=0; i < input_length;) {
+        uint32_t octet_a = i < input_length ? data[i++] : 0;
+        uint32_t octet_b = i < input_length ? data[i++] : 0;
+        uint32_t octet_c = i < input_length ? data[i++] : 0;
+
+        uint32_t triple = (octet_a << 0x10) + (octet_b << 0x08) + octet_c;
+
+        encoded_data[j++] = _codes[(triple >> 3 * 6) & 0x3F];
+        encoded_data[j++] = _codes[(triple >> 2 * 6) & 0x3F];
+        encoded_data[j++] = _codes[(triple >> 1 * 6) & 0x3F];
+        encoded_data[j++] = _codes[(triple >> 0 * 6) & 0x3F];
+    }
+
+    for (i=0; i < mod_table[input_length % 3]; i++)
+        encoded_data[*output_length - 1 - i] = '=';
+
+    return encoded_data;
+}
 
 
 
@@ -71,8 +89,6 @@ int base64_decode(char *source, unsigned char *output, int *buflen)
 	assert(source && output && buflen);
 	assert(buflen[0] > 0);
 
-	base64_init();
-	
 	len = strlen(source);
 	assert(len > 0);
 	
